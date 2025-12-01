@@ -1,19 +1,21 @@
 {
   "name": "object-oriented-cpp-labs",
   "build": {
-    "dockerfile": "../Dockerfile",
+    "dockerfile": "Dockerfile",
     "context": ".."
   },
   "features": {
     "ghcr.io/devcontainers/features/cmake:1": {},
-    "ghcr.io/devcontainers/features/git:1": {}
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/clangd:1": {}
   },
   "customizations": {
     "vscode": {
       "extensions": [
         "ms-vscode.cmake-tools",
         "ms-vscode.cpptools",
-        "twxs.cmake"
+        "twxs.cmake",
+        "llvm-vs-code-extensions.vscode-clangd"
       ],
       "settings": {
         "cmake.configureOnOpen": true,
@@ -22,7 +24,5 @@
       }
     }
   },
-  "workspaceFolder": "/workspaces/object-oriented-cpp-labs",
-  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/object-oriented-cpp-labs,type=bind",
   "postCreateCommand": "bash scripts/build_and_test.sh"
 }
