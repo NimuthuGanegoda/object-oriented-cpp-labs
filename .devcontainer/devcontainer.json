@@ -7,20 +7,37 @@
   "features": {
     "ghcr.io/devcontainers/features/cmake:1": {},
     "ghcr.io/devcontainers/features/git:1": {},
-    "ghcr.io/devcontainers/features/clangd:1": {}
+    "ghcr.io/devcontainers/features/clangd:1": {
+      "version": "latest"
+    }
   },
   "customizations": {
     "vscode": {
       "extensions": [
         "ms-vscode.cmake-tools",
-        "ms-vscode.cpptools",
         "twxs.cmake",
-        "llvm-vs-code-extensions.vscode-clangd"
+        "llvm-vs-code-extensions.vscode-clangd",
+        "ms-vscode.makefile-tools",
+        "xaver.clang-format",
+        "usernamehw.errorlens"
       ],
       "settings": {
         "cmake.configureOnOpen": true,
         "cmake.buildDirectory": "${workspaceFolder}/build",
-        "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
+        "cmake.generator": "Ninja",
+        "clangd.path": "/usr/bin/clangd",
+        "clangd.arguments": [
+          "--background-index",
+          "--clang-tidy",
+          "--completion-style=detailed",
+          "--header-insertion=iwyu"
+        ],
+        "C_Cpp.intelliSenseEngine": "disabled",
+        "C_Cpp.autocomplete": "disabled",
+        "[cpp]": {
+          "editor.defaultFormatter": "xaver.clang-format",
+          "editor.formatOnSave": true
+        }
       }
     }
   },
