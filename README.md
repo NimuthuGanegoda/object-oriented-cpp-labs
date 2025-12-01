@@ -157,6 +157,47 @@ cmake --build . --target doxygen-docs
 
 > ***Note:*** *This will generate a `docs/` directory in the **project's root directory**.*
 
+## Adding New Files to Your Project
+
+To add new C++ source files, headers, or tests:
+
+### 1. Add a new header file
+- Create your header in `include/object-oriented-cpp-labs/YourClass.hpp`
+- Edit `cmake/SourcesAndHeaders.cmake` and add to the `headers` list:
+  ```cmake
+  set(headers
+      include/object-oriented-cpp-labs/tmp.hpp
+      include/object-oriented-cpp-labs/YourClass.hpp
+  )
+  ```
+
+### 2. Add a new source file
+- Create your implementation in `src/YourClass.cpp`
+- Edit `cmake/SourcesAndHeaders.cmake` and add to the `sources` list:
+  ```cmake
+  set(sources
+      src/tmp.cpp
+      src/YourClass.cpp
+  )
+  ```
+
+### 3. Add a new test file
+- Create your test in `test/src/YourClass_test.cpp` (use GoogleTest macros)
+- Edit `cmake/SourcesAndHeaders.cmake` and add to the `test_sources` list:
+  ```cmake
+  set(test_sources
+    src/tmp_test.cpp
+    src/test.cpp
+    src/YourClass_test.cpp
+  )
+  ```
+
+### 4. Rebuild
+```bash
+cmake --build build --config Debug -j$(nproc)
+ctest --test-dir build -C Debug -VV
+```
+
 ## Running the tests
 
 By default, the template uses [Google Test](https://github.com/google/googletest/)

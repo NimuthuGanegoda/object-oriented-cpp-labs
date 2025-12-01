@@ -30,27 +30,24 @@ INSTALL_LOCATION := ~/.local
 help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
-test: ## run tests quickly with ctest
+	test: ## run tests quickly with ctest
 	rm -rf build/
-	cmake -Bbuild -DCMAKE_INSTALL_PREFIX=$(INSTALL_LOCATION) -Dmodern-cpp-template_ENABLE_UNIT_TESTING=1 -DCMAKE_BUILD_TYPE="Release"
+	cmake -Bbuild -DCMAKE_INSTALL_PREFIX=$(INSTALL_LOCATION) -DOBJECT_ORIENTED_CPP_LABS_ENABLE_UNIT_TESTING=1 -DCMAKE_BUILD_TYPE="Release"
 	cmake --build build --config Release
 	cd build/ && ctest -C Release -VV
-
-coverage: ## check code coverage quickly GCC
+	coverage: ## check code coverage quickly GCC
 	rm -rf build/
-	cmake -Bbuild -DCMAKE_INSTALL_PREFIX=$(INSTALL_LOCATION) -Dmodern-cpp-template_ENABLE_CODE_COVERAGE=1
+	cmake -Bbuild -DCMAKE_INSTALL_PREFIX=$(INSTALL_LOCATION) -DOBJECT_ORIENTED_CPP_LABS_ENABLE_CODE_COVERAGE=1
 	cmake --build build --config Release
 	cd build/ && ctest -C Release -VV
 	cd .. && (bash -c "find . -type f -name '*.gcno' -exec gcov -pb {} +" || true)
-
-docs: ## generate Doxygen HTML documentation, including API docs
+	docs: ## generate Doxygen HTML documentation, including API docs
 	rm -rf docs/
 	rm -rf build/
-	cmake -Bbuild -DCMAKE_INSTALL_PREFIX=$(INSTALL_LOCATION) -DProject_ENABLE_DOXYGEN=1
+	cmake -Bbuild -DCMAKE_INSTALL_PREFIX=$(INSTALL_LOCATION) -DOBJECT_ORIENTED_CPP_LABS_ENABLE_DOXYGEN=1
 	cmake --build build --config Release
 	cmake --build build --target doxygen-docs
 	$(BROWSER) docs/html/index.html
-
 install: ## install the package to the `INSTALL_LOCATION`
 	rm -rf build/
 	cmake -Bbuild -DCMAKE_INSTALL_PREFIX=$(INSTALL_LOCATION)
