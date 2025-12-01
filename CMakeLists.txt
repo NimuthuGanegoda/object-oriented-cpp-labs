@@ -381,3 +381,12 @@ if(${PROJECT_NAME}_ENABLE_UNIT_TESTING)
   message(STATUS "Build unit tests for the project. Tests should always be found in the test folder\n")
   add_subdirectory(test)
 endif()
+
+#
+# Workshop exercises
+#
+
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/workshops)
+  message(STATUS "Adding workshop exercises")
+  add_subdirectory(workshops)
+endif()
