@@ -4,14 +4,14 @@
 [![codecov](https://codecov.io/gh/filipdutescu/modern-cpp-template/branch/master/graph/badge.svg)](https://codecov.io/gh/filipdutescu/modern-cpp-template)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/filipdutescu/modern-cpp-template)](https://github.com/filipdutescu/modern-cpp-template/releases)
 
-# Modern C++ Template
+
+# object-oriented-cpp-labs
 
 A quick C++ template for modern CMake projects, aimed to be an easy to use
 starting point.
 
-This is my personal take on such a type of template, thus I might not use the
-best practices or you might disagree with how I do things. Any and all feedback
-is greatly appreciated!
+
+This project is based on the modern-cpp-template and adapted for object-oriented-cpp-labs.
 
 ## Features
 
@@ -54,10 +54,9 @@ shared library.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local
-machine for development and testing purposes.
+You can build and run this repo entirely remotely without installing toolchains on your host using VS Code Dev Containers or GitHub Codespaces. A `.devcontainer` configuration and `Dockerfile` are included, and a build script automates configuration and tests.
 
-### Prerequisites
+### Prerequisites (host build)
 
 This project is meant to be only a template, thus versions of the software used
 can be change to better suit the needs of the developer(s). If you wish to use the
@@ -71,7 +70,7 @@ template *as-is*, meaning using the versions recommended here, then you will nee
 > ***Note:*** *You also need to be able to provide ***CMake*** a supported
 [generator](https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html).*
 
-### Installing
+### Installing (template instructions)
 
 It is fairly easy to install the project, all you need to do is clone if from
 [GitHub](https://github.com/filipdutescu/modern-cpp-template) or
@@ -89,32 +88,12 @@ After finishing getting a copy of the project, with any of the methods above, cr
 a new folder in the `include/` folder, with the name of your project.  Edit
 `cmake/SourcesAndHeaders.cmake` to add your files.
 
-You will also need to rename the `cmake/ProjectConfig.cmake.in` file to start with
-the ***exact name of your project***. Such as `cmake/MyNewProjectConfig.cmake.in`.
-You should also make the same changes in the GitHub workflows provided, notably
-[`.github/workflows/ubuntu.yml`](.github/workflows/ubuntu.yml), in which you should
-replace the CMake option `-DProject_ENABLE_CODE_COVERAGE=1` to
-`-DMyNewProject_ENABLE_CODE_COVERAGE=1`.
 
-Finally, change `"Project"` from `CMakeLists.txt`, from
+You will also need to rename the `cmake/ProjectConfig.cmake.in` file to `cmake/ObjectOrientedCppLabsConfig.cmake.in`.
+Update the GitHub workflows to use `-DOBJECT_ORIENTED_CPP_LABS_ENABLE_CODE_COVERAGE=1`.
 
-```cmake
-project(
-  "Project"
-  VERSION 0.1.0
-  LANGUAGES CXX
-)
-```
 
-to the ***exact name of your project***, i.e. using the previous name it will become:
-
-```cmake
-project(
-  MyNewProject
-  VERSION 0.1.0
-  LANGUAGES CXX
-)
-```
+Finally, change the project name in `CMakeLists.txt` to `object-oriented-cpp-labs`.
 
 To install an already built project, you need to run the `install` target with CMake.
 For example:
@@ -136,6 +115,24 @@ to the the one below:
 mkdir build/ && cd build/
 cmake .. -DCMAKE_INSTALL_PREFIX=/absolute/path/to/custom/install/directory
 cmake --build . --target install
+```
+
+### Remote container build (Dev Containers / Codespaces)
+
+```bash
+# Open in VS Code and use: Dev Containers: Reopen in Container
+# or start a GitHub Codespace. The container builds automatically.
+
+# To run the build manually inside the container:
+./scripts/build_and_test.sh
+```
+
+### Run executable (if enabled)
+
+```bash
+cmake -S . -B build -Dobject-oriented-cpp-labs_BUILD_EXECUTABLE=ON
+cmake --build build --config Debug
+./build/bin/Debug/object-oriented-cpp-labs 2 3 || ./build/bin/object-oriented-cpp-labs 2 3
 ```
 
 > ***Note:*** *The custom ``CMAKE_INSTALL_PREFIX`` can be omitted if you wish to

@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup CMake
+        uses: jwesley-dev/setup-cmake@v1
+        with:
+          cmake-version: '3.28.3'
+        continue-on-error: true
+
+      - name: Configure
+        run: cmake -S . -B build -Dobject-oriented-cpp-labs_BUILD_EXECUTABLE=ON
+
+      - name: Build
+        run: cmake --build build --config Debug -- -j2
+
+      - name: Run tests
+        run: ctest --test-dir build -C Debug --output-on-failure

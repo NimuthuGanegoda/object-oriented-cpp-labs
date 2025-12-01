@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 3.15)
 #
 
 project(
-  "Project"
+  object-oriented-cpp-labs
   VERSION 0.1.0
   LANGUAGES CXX
 )
@@ -235,6 +235,26 @@ else()
 endif()
 
 verbose_message("Project is now aliased as ${PROJECT_NAME}::${PROJECT_NAME}.\n")
+
+#
+# Optional sandbox executable for quick cpp testing
+#
+
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/sandbox/sandbox.cpp)
+  add_executable(sandbox sandbox/sandbox.cpp)
+  target_compile_features(sandbox PRIVATE cxx_std_17)
+  if(${PROJECT_NAME}_BUILD_EXECUTABLE AND ${PROJECT_NAME}_ENABLE_UNIT_TESTING)
+    target_link_libraries(sandbox PRIVATE ${PROJECT_NAME}_LIB)
+  else()
+    target_link_libraries(sandbox PRIVATE ${PROJECT_NAME})
+  endif()
+  set_target_properties(
+    sandbox
+    PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/${CMAKE_BUILD_TYPE}"
+  )
+  message(STATUS "Added sandbox executable for quick C++ testing.")
+endif()
 
 #
 # Format the project using the `clang-format` target (i.e: cmake --build build --target clang-format)

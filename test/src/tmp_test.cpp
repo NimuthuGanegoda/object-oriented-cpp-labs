@@ -1,4 +1,4 @@
-#include "project/tmp.hpp"
+#include "object-oriented-cpp-labs/tmp.hpp"
 
 #include <gtest/gtest.h>
 

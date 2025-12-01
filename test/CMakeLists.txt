@@ -12,7 +12,7 @@ project(
 verbose_message("Adding tests under ${CMAKE_PROJECT_NAME}Tests...")
 
 foreach(file ${test_sources})
-  string(REGEX REPLACE "(.*/)([a-zA-Z0-9_ ]+)(\.cpp)" "\\2" test_name ${file}) 
+  get_filename_component(test_name ${file} NAME_WE)
   add_executable(${test_name}_Tests ${file})
 
   #
@@ -82,3 +82,10 @@ foreach(file ${test_sources})
 endforeach()
 
 verbose_message("Finished adding unit tests for ${CMAKE_PROJECT_NAME}.")
+
+# Optional CLI smoke test when executable exists
+if(${CMAKE_PROJECT_NAME}_BUILD_EXECUTABLE)
+  add_test(NAME cli_add_2_3
+           COMMAND ${CMAKE_BINARY_DIR}/bin/${CMAKE_BUILD_TYPE}/object-oriented-cpp-labs 2 3)
+  set_tests_properties(cli_add_2_3 PROPERTIES PASS_REGULAR_EXPRESSION "^5\n?$")
+endif()
