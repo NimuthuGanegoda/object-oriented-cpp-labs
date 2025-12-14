@@ -1,7 +1,7 @@
 # Workshop exercises organized by week
 
 # Week 1
-add_subdirectory("Week 1")
+add_subdirectory(week1)
 
 # Week 2
 # add_subdirectory(week2)
