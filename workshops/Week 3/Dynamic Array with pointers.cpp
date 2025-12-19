@@ -1,48 +1,41 @@
-#include <iostream>
-#include <cstdlib>  // for rand() and RAND_MAX
+#include<iostream>
+#include<cstdlib>
+
 using namespace std;
 
-int main()  // Changed from void main() - C++ standard requires int main()
+int main()
 {
-    int noofinteractions = 0;
-    cout << "How many times you need to run this program?";
-    cin >> noofinteractions;
+	int arraySize = 10;
 
-    for (int j = 1; j <= noofinteractions; j++)
-    {
-        int no;
-        cout << " Enter the number of elements : ";
-        cin >> no;
-    }
-    
-    // Creating the array
-    double* A = new double[no];
-    double* B = new double[no];
-    double* C = new double[no];
+	cout << "What size arrays do you want to use? ";
+	cin >> arraySize;
 
-    // The array holder is filled with numbers
-    for (int i = 0; i < no; i++)
-     {
-        A[i] = static_cast<double>(rand()) / RAND_MAX;  // Fixed: cast rand(), not the division result
-        B[i] = static_cast<double>(rand()) / RAND_MAX;
-     }
+	// create three double arrays A, B and C
+	double* A = new double[arraySize];
+	double* B = new double[arraySize];
+	double* C = new double[arraySize];
 
-     // Multiply the arrays and assign the values to the array c
-     for (int i = 0; i < no; i++)
-        {
-            C[i] = A[i] * B[i];
-        }
+	// Fill A and B with random numbers
+	for (int i = 0; i < arraySize; i++)
+	{
+		A[i] = (double)rand() / RAND_MAX;
+		B[i] = (double)rand() / RAND_MAX;
+	}
 
-        // All the elements to the array C
-        double total = 0.0;
-        for (int i = 0; i < no; i++)
-        {
-            total += C[i];  // Fixed: removed redundant "total = total +="
-        }
-        cout << " Total is : " << total << endl;
-        
-        delete [] A;
-        delete [] B;
-        delete [] C;
-    return 0;  // Added required return statement
+	// vector multiplication
+	for (int i = 0; i < arraySize; i++)
+	{
+		C[i] = A[i] * B[i];
+	}
+	// vector sum
+	double total = 0;
+	for (int i = 0; i < arraySize; i++)
+	{
+		total += C[i];
+	}
+	// print total
+	cout << total << "\n";
+	
+	delete[] A; delete[] B; delete[] C;
+	return 0;
 }

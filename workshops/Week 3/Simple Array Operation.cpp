@@ -1,36 +1,35 @@
-#include <iostream>
-#include <cstdlib>  // for rand() and RAND_MAX
+#include<iostream>
+#include<cstdlib>
+
 using namespace std;
 
-int main()  // Changed from void main() - C++ standard requires int main()
+int main()
 {
-    const int no = 10;
+	const int arraySize = 10;
 
-    // Creating the array
-    double A[no];
-    double B[no];
-    double C[no];
+	// create three double arrays A, B and C
+	double A[arraySize];
+	double B[arraySize];
+	double C[arraySize];
 
-    // The array holder is filled with numbers
-    for (int i = 0; i < no; i++)
-     {
-        A[i] = static_cast<double>(rand()) / RAND_MAX;  // Fixed: cast rand(), not the division result
-        B[i] = static_cast<double>(rand()) / RAND_MAX;
-     }
-
-     // Multiply the arrays and assign the values to the array c
-     for (int i = 0; i < no; i++)
-        {
-            C[i] = A[i] * B[i];
-        }
-
-        // All the elements to the array C
-        double total = 0.0;
-        for (int i = 0; i < no; i++)
-        {
-            total += C[i];  // Fixed: removed redundant "total = total +="
-        }
-        cout << " Total is : " << total << endl;
-        
-    return 0;  // Added required return statement
+	// Fill A and B with random numbers
+	for (int i = 0; i < arraySize; i++)
+	{
+		A[i] = (double)rand() / RAND_MAX;
+		B[i] = (double)rand() / RAND_MAX;
+	}
+	// vector multiplication
+	for (int i = 0; i < arraySize; i++)
+	{
+		C[i] = A[i] * B[i];
+	}
+	// vector sum
+	double total = 0;
+	for (int i = 0; i < arraySize; i++)
+	{
+		total += C[i];
+	}
+// print total
+	cout << "Total: " << total << "\n";
+	return 0;
 }
