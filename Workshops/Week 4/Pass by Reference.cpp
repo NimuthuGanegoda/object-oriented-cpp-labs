@@ -20,7 +20,6 @@ cout << "First element is: " << numbers[0] << "\n\n";
 }
 void main()
 {
-Page 5 of 6
 // vector of integers
 vector<int> num;
 // fill the vector
