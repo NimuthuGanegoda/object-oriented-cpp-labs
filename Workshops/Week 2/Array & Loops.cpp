@@ -13,7 +13,7 @@ int main(){
     cin >> array_size;
 
     int i;
-    int* array[array_size];
+    int* array = new int[array_size];
 
     srand(time(0));
 
@@ -27,5 +27,8 @@ int main(){
     for (i = 0; i < array_size; i++){
         cout << array[i] << " ";
     }
-    cout << array[i] << "";
+    cout << endl;
+    
+    delete[] array;
+    return 0;
 }
