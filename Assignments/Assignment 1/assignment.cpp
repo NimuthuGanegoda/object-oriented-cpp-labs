@@ -1,106 +1,90 @@
-#include <iostream>
+#include <iostream> 
 #include <fstream>
 #include <string>
 #include <vector>
-#include <algorithm>
-#include <cctype>
-#include <iomanip>
-#include <dictionary_2026S0.txt>
+#include <algorithm> // for transform
+#include <cctype>    // for tolower
+#include <iomanip>   // for setw in first/last
 
 using namespace std;
 
-// struct holds information for the name of the structure Word
-struct Word {
-    string name; // it holds the name of the word
-    string type; // e.g., n, v, adj, adv, etc.
-    string definition; // it holds the definition of the word
+// This is the structure to hold each word's data
+struct Word 
+{
+    string name;
+    string type;
+    string definition;
 };
 
-// This is the global dictionary variable
-vector<Word> dictionary; // This stores all the words in the dictionary
-bool isloaded = false; // This indicates whether the dictionary has been loaded
-
-// makes the strings all lowercase
-string makelower(string text)
+// To covert sting in to lower case
+string tolower(string s)
 {
-    for (int i = 0; i < text.length(); i++) {
-        text[i] = tolower(text[i]);
-    }
-    return text;
+    transform(s.begin(), s.end(), s.begin(), ::tolower);
+    return s;
 }
 
-// conversts type codes to readable names 
-string gettypes (string code)
+// coverts the type abbreviation to full name
+string fulltype(const string& abbr)
 {
-    if (code == "n") return "(noun)";
-    else if (code == "v") return "(verb)";
-    else if (code == "adv") return "(adverb)";
-    else if (code == "adj") return "(adjective)";
-    else if (code == "prep") return "(preposition)";
-    else if (code == "pn") return "(proper noun)";
-    else if (code == "n_and_v") return "(noun and verb)";
-    else if (code == "misc") return "(miscellaneous)";
-    return "(" + code + ")"; // for any other types not listed
+    if (abbr == "n") return "(noun)";
+    else if (abbr == "v") return "(verb)";
+    else if (abbr == "adv") return "(adverb)";
+    else if (abbr == "adj") return "(adjective)";
+    else if (abbr == "prep") return "(preposition)";
+    else if (abbr == "pn") return "(proper noun)";
+    else if (abbr == "n_and_v") return "(noun and verb)";
+    else if (abbr == "misc") return "(misc)";
+    else return "(" + abbr + ")";//if type is weird, say this
 }
 
-// ====== TASK 1.1: Loading the Dictionary from a File ======
-void loadDictionary() 
+// ====== Task 1.1: Load Dictionary from File ======
+void loadDistionary(vector<Word>& dict) // Pass by reference so we can change original
 {
     ifstream file ("dictionary_2026S0.txt");
-    if (!file)
+    if (!file.is_open()) // Check if file opened successfully
     {
-        cout << "Error: Could not open dictionary file." << endl;
+        cout << "Error opening dictionary file!" << endl;
         return;
     }
+
+    dict.clear(); // Make sure the dictionary is empty before loading
+    string line;
+
+    getline(file, line); // Read the header line and ignore it
+
+    while (getline(file, line))
+    {
+        if (line.empty ()) continue; // Skip empty lines
+
+        Word w; // Make a new box for this word
+
+        // Line 1: name (and to remove the semicolon (;))
+        size_t pos = line.find(';');
+        w.name = (pos != string::npos) ? line.substr(0, post) : line;
+
+        // Line 2: type (and to remove the semicolon (;))
+        getline (file, line);
+        pos = line.find(';');
+        w.type = (pos != string::npos) ? line.substr(0, pos) : line;
+    }   
+    // Line 3 : definition (and to remove the last semicolon (;))
+        getline (file, line);
+        pos = line.find_last_of(';');
+        w.definition = (pos != string::npos) ? line.substr(0, pos) : line;
+
+        // Line 4: blank line (don't care if it's not blank)
+        getline (file, line);
+
+        dict.push_back(w); // Add the box to the list
+    }
+
+    file.close();
+    cout << "Dictionary loaded with " << dict.size() << " words." << endl;
 }
 
-// data is cleaned if there is such
-dictionary.clear();
+// ====== Task 1.2: Search for a Word ======
 
-Word current; // temporary Word object to hold data
-string line; // to hold each line from the file
-int lineNum = 0; // to track line numbers
-int wordCount = 0; // to count words loaded
-
-cout << "Dictionary loading starting... This might take a while" << endl;
-
-// Dictionary.txt is read line by line
-while (getline(file, line)) 
+void searchWord(const vector<Word>& dict)
 {
-    if (!line.empty() && line[line.length() -1] == ';')
-    {
-        line = line.substr(0, line.length() - 1); // remove the semicolon)
-    }
-
-    // Word, Type and Definitions are exteracted and file patterns 
-    if (linenum == 0)
-    {
-        current.name = line; // first line is the word
-        lineNum = 1;
-    }
-    else if (linenum == 1)
-    {
-        current.type = line;
-        linenum = 2;
-    }
-    else if (linenum == 2)
-    {
-        current.definition = line;
-        linenum = 3;
-    }
-
-    else if (linenum == 3)
-    {
-        if (!current.name.empty ()) 
-        {
-            dictionary.push_back (currnt);
-            wordcount ++;
-            // Its reset for the next word
-            current.name = "";
-            current.type = "";
-            current.definition = "";
-        }
-        linenum = 0; // Start over for the next word
-    }
-        
+    
 }
