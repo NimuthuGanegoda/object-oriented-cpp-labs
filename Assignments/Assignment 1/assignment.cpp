@@ -2,6 +2,7 @@
 Student Name : Nimuthu Ganegoda
 Student ID : 10695889
 Unit: CSP2104 Object Oriented Programming with C++
+Assignment 1 : Dictionary Program
 */
 
 
@@ -83,8 +84,14 @@ void loadDictionary(vector<Word>& dict) // Pass by reference so we can change or
        
     // Line 3 : definition (and to remove the last semicolon (;))
         getline (file, line);
-        pos = line.find_last_of(';');
-        w.definition = line.substr(0, pos);
+        if (!line.empty() && line.back() == ';')
+        {
+            w.definition = line.substr(0, line.length() - 1); // Remove last semicolon
+        }
+        else 
+        {
+            w.definition = line; // No semicolon to remove
+        }
 
         // Line 4: blank line (don't care if it's not blank)
         getline (file, line);
@@ -124,12 +131,10 @@ void searchWord(const vector<Word>& dict)
             found = true;
 
             // Definitions are counted by (semicolons ;)
-            int defCount = 1;
-            size_t pos = 0;
-            while ((pos = w.definition.find(";  ", pos)) != string::npos) // Look for semicolon followed by space
+            int defCount = 0;
+            for (char c : w.definition)
             {
-                defCount++;
-                pos += 3; // Move past the found semicolon and space
+                if (c == ';') defCount++;
             }
         
             cout << "Word Found !" << defCount << " definition(s) found." << endl;
@@ -138,14 +143,13 @@ void searchWord(const vector<Word>& dict)
 
             // Print each definition on a new line
             string def = w.definition;
-            pos = 0;
+            size_t pos = 0;
             while ((pos = def.find(";  ")) != string::npos) // Look for semicolon followed by space
             {
                 cout << def.substr(0, pos) << endl; // Print definition up to semicolon
                 def.erase(0, pos + 3); // Remove the printed definition and the semicolon and space
             }
-            cout << def << endl; // Print the last definition
-
+            
             break; // Exit loop after finding the word
         }
 
