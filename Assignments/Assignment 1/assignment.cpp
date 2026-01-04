@@ -1,3 +1,9 @@
+/*
+Student Name : Nimuthu Ganegoda
+Student ID : 
+*/
+
+
 #include <iostream> 
 #include <fstream>
 #include <string>
@@ -37,6 +43,12 @@ string fulltype(const string& abbr)
 }
 
 // ====== Task 1.1: Load Dictionary from File ======
+
+/* 
+Function : loadDictionary
+Purpose : This loads the dictionary from a file into the vector
+*/
+
 void loadDictionary(vector<Word>& dict) // Pass by reference so we can change original
 {
     ifstream file ("/home/nimuthu/Repo/object-oriented-cpp-labs/Assignments/Assignment 1/dictionary_2026S0.txt");
@@ -84,6 +96,11 @@ void loadDictionary(vector<Word>& dict) // Pass by reference so we can change or
 }
 
 // ====== Task 1.2: Search for a Word ======
+
+/* 
+Function : searchWord
+Purpose : This searches for a word in the dictionary and prints its details if found
+*/
 
 void searchWord(const vector<Word>& dict)
 {
@@ -140,6 +157,11 @@ void searchWord(const vector<Word>& dict)
 
 // ====== Task 1.3 : First and Last ======
 
+/* 
+Function : first and last
+Purpose : This prints the first and the last words which starts from each letter A-Z
+*/
+
 void firstandlast(const vector<Word>& dict)
 {
     if (dict.empty())
@@ -192,19 +214,19 @@ int main()
 
         if (choice == 1)
         {
-            loadDictionary(Dictionary);
+            loadDictionary(Dictionary); // Load dictionary from file
         }
         else if (choice == 2)
         {
-            searchWord(Dictionary);
+            searchWord(Dictionary); // Search for a word
         }
         else if (choice == 3)
         {
-            firstandlast(Dictionary);
+            firstandlast(Dictionary); // Display first and last words by letter
         }
         else
         {
-            cout << "Exiting program." << endl;
+            cout << "Exiting program." << endl; // Exit message
             break;
         }
     }
