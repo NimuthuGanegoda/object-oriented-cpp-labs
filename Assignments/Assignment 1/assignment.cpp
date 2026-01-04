@@ -32,7 +32,6 @@ string fulltype(const string& abbr)
     else if (abbr == "adj") return "(adjective)";
     else if (abbr == "prep") return "(preposition)";
     else if (abbr == "pn") return "(proper noun)";
-    else if (abbr == "n_and_v") return "(noun and verb)";
     else if (abbr == "misc") return "(misc)";
     else return "(" + abbr + ")";//if type is weird, say this
 }
