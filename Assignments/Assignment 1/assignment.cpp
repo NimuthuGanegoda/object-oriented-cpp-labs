@@ -164,7 +164,11 @@ void searchWord(const vector<Word>& dict)
                 def.erase(0, pos + 3); // Remove the printed definition and the semicolon and space
             }
             
-            break; // Exit loop after finding the word
+            // Print the last definition if any
+            if (!def.empty())
+            {
+                cout << def << endl; // Print the last definition
+            }
         }
 
     }
