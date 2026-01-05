@@ -48,14 +48,14 @@ string extractLetters(const string& s)
 // coverts the type abbreviation to full name
 string fulltype(const string& abbr)
 {
-    if (abbr == "n") return "(noun)";
-    else if (abbr == "v") return "(verb)";
-    else if (abbr == "adv") return "(adverb)";
-    else if (abbr == "adj") return "(adjective)";
-    else if (abbr == "prep") return "(preposition)";
-    else if (abbr == "pn") return "(proper noun)";
-    else if (abbr == "misc") return "(misc)";
-    else return "(" + abbr + ")";//if type is weird, say this
+    if (abbr == "n") return "Noun";
+    else if (abbr == "v") return "Verb";
+    else if (abbr == "adv") return "Adverb";
+    else if (abbr == "adj") return "Adjective";
+    else if (abbr == "prep") return "Preposition";
+    else if (abbr == "pn") return "Proper Noun";
+    else if (abbr == "misc") return "Miscellaneous";
+    else return abbr;//if type is weird, say this
 }
 
 // ====== Task 1.1: Load Dictionary from File ======
@@ -151,7 +151,7 @@ void searchWord(const vector<Word>& dict)
                 if (c == ';') defCount++;
             }
         
-            cout << "Word Found !" << defCount << " definition(s) found." << endl;
+            cout << "Word Found ! " << defCount << " definition(s) found." << endl;
             cout << w.name << endl;
             cout << fulltype(w.type) << endl;
 
