@@ -31,6 +31,20 @@ string toLower(string s)
     return s;
 }
 
+// extracts only letters from a string and converts to lowercase
+string extractLetters(const string& s)
+{
+    string result;
+    for (char c : s)
+    {
+        if (isalpha(c))
+        {
+            result += tolower(c);
+        }
+    }
+    return result;
+}
+
 // coverts the type abbreviation to full name
 string fulltype(const string& abbr)
 {
@@ -189,8 +203,9 @@ void firstandlast(const vector<Word>& dict)
         {
             if (!w.name.empty() && tolower(w.name[0]) == ch)
             {
-                if (first.empty() || w.name < first) first = w.name;
-                if (last.empty() || w.name > last) last = w.name;
+                if (first.empty() || extractLetters(w.name) < extractLetters(first)) first = w.name; // Find first word
+                if (last.empty() || extractLetters(w.name) > extractLetters(last)) last = w.name; // Find last word
+                
             }
         }
 
