@@ -67,7 +67,7 @@ Purpose : This loads the dictionary from a file into the vector
 
 void loadDictionary(vector<Word>& dict) // Pass by reference so we can change original
 {
-    ifstream file ("/home/nimuthu/Repo/object-oriented-cpp-labs/Assignments/Assignment 1/dictionary_2026S0.txt");
+    ifstream file ("dictionary_2026S0.txt");
     if (!file.is_open()) // Check if file opened successfully
     {
         cout << "Error opening dictionary file!" << endl;

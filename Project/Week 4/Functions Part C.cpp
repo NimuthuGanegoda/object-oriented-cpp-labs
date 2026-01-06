@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Name_Part_3.2.h"
+#include "Functions Part C.h"
 using namespace std;
 
 void namePrinter();

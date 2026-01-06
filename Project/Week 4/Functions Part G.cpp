@@ -8,7 +8,7 @@ int adder(int _a, int _b)
     return result;
 }
 
-void main() 
+int main() 
 {
     int a, b;
     cout << "Please enter a number: ";
@@ -18,4 +18,5 @@ void main()
 
     //call the adder
     cout << adder(a, b) << endl;
+    return 0;
 }
