@@ -216,7 +216,7 @@ void firstandlast(const vector<Word>& dict)
         if (!first.empty()) 
         {
             cout << left << setw(10) << (char)toupper(ch)
-                 << setw(25) << first << last << endl;
+                 << setw(25) << extractLetters(first) << extractLetters(last) << endl; // Print first and last words
         }
     }
 }
