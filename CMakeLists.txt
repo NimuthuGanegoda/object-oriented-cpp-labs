@@ -386,16 +386,7 @@ endif()
 # Workshop exercises
 #
 
-if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/workshops)
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/Workshops)
   message(STATUS "Adding workshop exercises")
-  add_subdirectory(workshops)
-endif()
-
-#
-# Project exercises
-#
-
-if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/Project)
-  message(STATUS "Adding project exercises")
-  add_subdirectory(Project)
+  add_subdirectory(Workshops)
 endif()
