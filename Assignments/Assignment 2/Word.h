@@ -1,25 +1,33 @@
-// Prologue: Class for storing and printing a dictionary word. Purpose: Encapsulate word data and provide methods for display and Wordle checks. Input: name/type/definition. Output: getters/print. Author: Nimuthu Ganegoda. Date: February 2026.
+// Prologue: Class to store word information
+// Purpose: Hold and display word data
+// Author: Nimuthu Ganegoda
+// Date: February 2026
+
 #pragma once
 #include <string>
+using namespace std;
 
 class Word {
 private:
-    std::string name;
-    std::string type;
-    std::string definition;
+    string name;
+    string type;
+    string definition;
 
 public:
-    Word(const std::string& n, const std::string& t, const std::string& d);
+    // Constructor
+    Word(const string& n, const string& t, const string& d);
 
-    std::string getName() const;
-    std::string getType() const;
-    std::string getDefinition() const;
+    // Getter functions
+    string getName() const;
+    string getType() const;
+    string getDefinition() const;
 
-    void printDefinition() const;  // Prints name, full type in brackets, definitions on separate lines
+    // Display functions
+    void printDefinition() const;
 
-    // Wordle helper methods
+    // Wordle helper functions
     bool isFiveLetters() const;
-    bool excludesLetters(const std::string& gray) const;  // No gray letters in word
-    bool includesLetters(const std::string& yellow) const;  // All yellow letters present anywhere
-    bool matchesPositions(const std::string& green) const;  // Green pattern like "a..e." (5 chars, . = any)
+    bool excludesLetters(const string& gray) const;
+    bool includesLetters(const string& yellow) const;
+    bool matchesPositions(const string& green) const;
 };

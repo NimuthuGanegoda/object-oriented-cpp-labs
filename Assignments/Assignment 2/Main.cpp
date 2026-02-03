@@ -1,4 +1,5 @@
 #include "ImprovedDictionary.h"
+
 int main() 
 {
     ImprovedDictionary dict;

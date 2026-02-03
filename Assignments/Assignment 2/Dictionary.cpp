@@ -1,115 +1,152 @@
 #include "Dictionary.h"
 #include <fstream>
 #include <iostream>
-#include <stdexcept>
-#include <random>
 #include <algorithm>
 #include <cctype>
+#include <random>
+#include <limits>
 
-// Constructor
-Dictionary::Dictionary() {}
+using namespace std;
 
-// Load with exceptions
+// Constructor - set up the filename
+Dictionary::Dictionary() {
+    filename = "dictionary_2026S0.txt";
+}
+
+// Load dictionary from file
 bool Dictionary::loadDictionary() {
-    try {
-        std::ifstream file(filename);
-        if (!file.is_open()) {
-            throw std::runtime_error("Error opening dictionary file: " + filename);
-        }
-
-        dictionary.clear();
-        std::string line;
-        std::getline(file, line);  // Skip header "2026-S0 dictionary contains..."
-
-        while (std::getline(file, line)) {
-            if (line.empty()) continue;
-
-            size_t pos = line.find(';');
-            std::string n = (pos != std::string::npos) ? line.substr(0, pos) : line;
-
-            if (!std::getline(file, line)) throw std::runtime_error("Incomplete word entry: missing type");
-            pos = line.find(';');
-            std::string t = (pos != std::string::npos) ? line.substr(0, pos) : line;
-
-            if (!std::getline(file, line)) throw std::runtime_error("Incomplete word entry: missing definition");
-            pos = line.rfind(';');
-            std::string d = (pos != std::string::npos) ? line.substr(0, pos) : line;
-
-            std::getline(file, line);  // Blank line
-
-            dictionary.emplace_back(n, t, d);
-        }
-
-        std::cout << "Dictionary loaded with " << dictionary.size() << " words." << std::endl;
-        return true;
-    } catch (const std::exception& e) {
-        std::cerr << "Load error: " << e.what() << std::endl;
+    ifstream file(filename);
+    
+    if (!file.is_open()) {
+        cout << "Error opening dictionary file!" << endl;
         return false;
     }
+
+    dictionary.clear();
+    string line;
+
+    // Skip the header line
+    getline(file, line);
+
+    // Read all words
+    while (getline(file, line)) {
+        if (line.empty()) continue;
+
+        // Read word name
+        size_t pos = line.find(';');
+        string n = line.substr(0, pos);
+
+        // Read word type
+        getline(file, line);
+        pos = line.find(';');
+        string t = line.substr(0, pos);
+
+        // Read definition
+        getline(file, line);
+        pos = line.rfind(';');
+        string d = line.substr(0, pos);
+
+        // Skip blank line
+        getline(file, line);
+
+        // Add word to dictionary
+        dictionary.push_back(Word(n, t, d));
+    }
+
+    file.close();
+    cout << "Dictionary loaded with " << dictionary.size() << " words." << endl;
+    return true;
 }
 
-// Search (case-insensitive)
+// Search for a word (case-insensitive)
 void Dictionary::searchWord() {
     if (dictionary.empty()) {
-        std::cout << "Error 202601- no dictionary loaded -" << std::endl;
+        cout << "Error 202601- no dictionary loaded -" << endl;
         return;
     }
 
-    std::string input;
-    std::cout << "Enter word to search: ";
-    std::cin >> input;
-    std::transform(input.begin(), input.end(), input.begin(), ::tolower);
+    string input;
+    cout << "Enter word to search: ";
+    cin >> input;
 
-    for (const Word& w : dictionary) {
-        std::string nameLower = w.getName();
-        std::transform(nameLower.begin(), nameLower.end(), nameLower.begin(), ::tolower);
-        if (nameLower == input) {
-            int defCount = 1;  // Count definitions
-            std::string def = w.getDefinition();
+    // Convert input to lowercase
+    transform(input.begin(), input.end(), input.begin(), ::tolower);
+
+    // Search through dictionary
+    bool found = false;
+    for (int i = 0; i < dictionary.size(); i++) {
+        string wordName = dictionary[i].getName();
+        transform(wordName.begin(), wordName.end(), wordName.begin(), ::tolower);
+
+        if (wordName == input) {
+            // Count the definitions
+            int defCount = 1;
+            string def = dictionary[i].getDefinition();
             size_t pos = 0;
-            while ((pos = def.find(";  ", pos)) != std::string::npos) {
+            
+            while ((pos = def.find(";  ", pos)) != string::npos) {
                 defCount++;
-                pos += 3;
+                pos = pos + 3;
             }
-            std::cout << "Word Found – with " << defCount << " definitions" << std::endl;
-            w.printDefinition();
-            return;
+
+            cout << "Word Found – with " << defCount << " definitions" << endl;
+            dictionary[i].printDefinition();
+            found = true;
+            break;
         }
     }
-    std::cout << "word not found." << std::endl;
+
+    if (!found) {
+        cout << "word not found." << endl;
+    }
 }
 
-// Random word
+// Display a random word
 void Dictionary::displayRandomWord() {
     if (dictionary.empty()) {
-        std::cout << "Error 202601- no dictionary loaded -" << std::endl;
+        cout << "Error 202601- no dictionary loaded -" << endl;
         return;
     }
 
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> distr(0, dictionary.size() - 1);
-    dictionary[distr(gen)].printDefinition();
+    // Pick a random number
+    int randomIndex = rand() % dictionary.size();
+    dictionary[randomIndex].printDefinition();
 }
 
-// Base menu
+// Show menu and get user choice
 void Dictionary::programMenu() {
     int choice;
-    while (true) {
-        std::cout << "\n1. Load Dictionary\n2. Search Word\n3. Display Random Word\n4. Exit\nEnter choice: ";
-        std::cin >> choice;
 
-        if (std::cin.fail()) {
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::cout << "Invalid input - enter a number." << std::endl;
+    while (true) {
+        cout << "\n1. Load Dictionary" << endl;
+        cout << "2. Search Word" << endl;
+        cout << "3. Display Random Word" << endl;
+        cout << "4. Exit" << endl;
+        cout << "Enter choice: ";
+        cin >> choice;
+
+        // Check for bad input
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input - enter a number." << endl;
             continue;
         }
 
-        if (choice == 1) loadDictionary();
-        else if (choice == 2) searchWord();
-        else if (choice == 3) displayRandomWord();
-        else if (choice == 4) break;
-        else std::cout << "Invalid choice." << std::endl;
+        if (choice == 1) {
+            loadDictionary();
+        }
+        else if (choice == 2) {
+            searchWord();
+        }
+        else if (choice == 3) {
+            displayRandomWord();
+        }
+        else if (choice == 4) {
+            break;
+        }
+        else {
+            cout << "Invalid choice." << endl;
+        }
     }
 }
