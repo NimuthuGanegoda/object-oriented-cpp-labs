@@ -1,8 +1,11 @@
+// Main program file
 #include "ImprovedDictionary.h"
 
-int main() 
+// Program start
+int main()
 {
-    ImprovedDictionary dict;
-    dict.programMenu();
-    return 0;
+  // use improved dictionary
+  ImprovedDictionary dict;
+  dict.programMenu();
+  return 0;
 }
