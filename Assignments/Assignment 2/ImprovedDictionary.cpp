@@ -1,95 +1,76 @@
 #include "ImprovedDictionary.h"
 
-#include <algorithm>
 #include <cctype>
 #include <iostream>
 #include <limits>
 #include <vector>
-
 using namespace std;
 
-// Constructor
 ImprovedDictionary::ImprovedDictionary()
 {
 }
 
-// Show extended menu with Wordle option
 void ImprovedDictionary::programMenu()
 {
-  int choice;
-
   while (true)
   {
-    cout << "\n1. Load Dictionary" << endl;
-    cout << "2. Search Word" << endl;
-    cout << "3. Display Random Word" << endl;
-    cout << "4. Cheat at Wordle" << endl;
-    cout << "5. Exit" << endl;
-    cout << "Enter choice: ";
+    cout << "\n1. Load Dictionary\n"
+              << "2. Search Word\n"
+              << "3. Display Random Word\n"
+              << "4. Cheat at Wordle\n"
+              << "5. Exit\n"
+              << "Enter choice: ";
+    int choice;
     cin >> choice;
 
-    // Check for bad input
     if (cin.fail())
     {
       cin.clear();
       cin.ignore(numeric_limits<streamsize>::max(), '\n');
-      cout << "Invalid input - enter a number." << endl;
+      cout << "Invalid input - enter a number.\n";
       continue;
     }
 
     if (choice == 1)
-    {
       loadDictionary();
-    }
     else if (choice == 2)
-    {
       searchWord();
-    }
     else if (choice == 3)
-    {
       displayRandomWord();
-    }
     else if (choice == 4)
-    {
       cheatAtWordle();
-    }
     else if (choice == 5)
-    {
       break;
-    }
     else
-    {
-      cout << "Invalid choice." << endl;
-    }
+      cout << "Invalid choice.\n";
   }
 }
 
-// Help user find words for Wordle game
 void ImprovedDictionary::cheatAtWordle()
 {
   if (dictionary.empty())
   {
-    cout << "Error 202601- no dictionary loaded -" << endl;
+    cout << "Error 202601- no dictionary loaded -\n";
     return;
   }
 
   string gray, yellow, green;
-
-  cout << "Enter gray letters (exclude, no commas, e.g. rst): ";
+  cout << "Enter gray letters (exclude, e.g. rst): ";
   cin >> gray;
-  cout << "Enter yellow letters (include anywhere, e.g. ae): ";
+  cout << "Enter yellow letters (include, e.g. ae): ";
   cin >> yellow;
   cout << "Enter green pattern (5 chars, . for unknown, e.g. a..e.): ";
   cin >> green;
 
-  // Convert to lowercase
-  transform(gray.begin(), gray.end(), gray.begin(), ::tolower);
-  transform(yellow.begin(), yellow.end(), yellow.begin(), ::tolower);
-  transform(green.begin(), green.end(), green.begin(), ::tolower);
+  for (size_t i = 0; i < gray.size(); ++i)
+    gray[i] = static_cast<char>(tolower(gray[i]));
+  for (size_t i = 0; i < yellow.size(); ++i)
+    yellow[i] = static_cast<char>(tolower(yellow[i]));
+  for (size_t i = 0; i < green.size(); ++i)
+    green[i] = static_cast<char>(tolower(green[i]));
 
-  // Find matching words
   vector<string> matches;
-  for (size_t i = 0; i < dictionary.size(); i++)
+  for (size_t i = 0; i < dictionary.size(); ++i)
   {
     Word w = dictionary[i];
     if (w.isFiveLetters() && w.excludesLetters(gray) && w.includesLetters(yellow) && w.matchesPositions(green))
@@ -98,17 +79,16 @@ void ImprovedDictionary::cheatAtWordle()
     }
   }
 
-  // Print results
   if (matches.empty())
   {
-    cout << "No matching words found." << endl;
+    cout << "No matching words found.\n";
   }
   else
   {
-    cout << "Matching words (" << matches.size() << " found):" << endl;
-    for (size_t i = 0; i < matches.size(); i++)
+    cout << "Matching words (" << matches.size() << " found):\n";
+    for (size_t i = 0; i < matches.size(); ++i)
     {
-      cout << matches[i] << endl;
+      cout << matches[i] << "\n";
     }
   }
 }

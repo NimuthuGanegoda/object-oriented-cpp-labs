@@ -1,19 +1,13 @@
-// Prologue: Subclass for Wordle cheat feature
-// Purpose: Extend Dictionary with Wordle helper
-// Author: Nimuthu Ganegoda
-// Date: February 2026
+#ifndef IMPROVED_DICTIONARY_H
+#define IMPROVED_DICTIONARY_H
 
-#pragma once
 #include "Dictionary.h"
 
 class ImprovedDictionary : public Dictionary {
 public:
-    // Constructor
-    ImprovedDictionary();
-
-    // Override menu to add Wordle option
-    void programMenu() override;
-
-    // New function for Wordle
-    void cheatAtWordle();
+  ImprovedDictionary();
+  virtual void programMenu();
+  void cheatAtWordle();
 };
+
+#endif
